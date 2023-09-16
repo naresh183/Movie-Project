@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+body{
+    background: linear-gradient(black, red);
+    height:110vh
+}
+.Search{text-align: center;
+margin: 50px;}
+.container{
+    display: flex;justify-content: baseline;align-items: center; flex-direction: column;
+}
+
+input{padding: 12px 5px;
+width: 300px;
+font-weight: bold;
+border: none;}
+
+button{padding: 12px 5px;
+    border: none;
+    background-color: red;
+    font-weight: bold;}
+
+body{background-color: black;}
+
+.maincontainer{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 50px;
+        width: 800px;
+        color: white;
+    }
+
+    .loader{
+        height: 80px;
+        width: 80px;
+        border-radius: 50%;
+        border: 5px solid;
+        border-color: white transparent white transparent;
+        animation: spin 0.5s linear infinite;
+    }  
+    @keyframes spin{
+        from{
+            transform: rotate(0deg);
+        }
+        to{
+            transform: rotate(360deg);
+        }
+    }
+
+    
+</style>
+<body>
+
+
+    <div class="container" >
+        
+        <div class="Search">
+            <input type="text" placeholder="Enter Movie Name" id="moviename">
+            <button id="btn">Search Movie</button>
+        </div>
+        <div id="loader"></div>
+        <div class="maincontainer">
+      
+            <div class="moviedata">
+                <h1><span id="title"></span></h1>
+                <p><span id="genre"></span></p>
+                <p><span id="awards"></span></p>
+                <p><span id="director"></span></p>
+                <p><span id="language"></span></p>
+                <p><span id="description"></span></p>
+                <p><span id="type"></span></p>
+                <p><span id="boxoffice"></span></p>
+                <p><span id="ratings"></span></p>
+
+            </div>
+            <div class="image">
+                <img src="" alt="" id="image" >
+            </div>
+        </div>
+    </div>
+    <!-- <script src="./movie.js"></script> -->
+    <script>
+        
+let title = document.getElementById("title");
+let genre = document.getElementById("genre");
+let awards = document.getElementById("awards");
+let director = document.getElementById("director");
+let language = document.getElementById("language");
+let description = document.getElementById("description");
+let type = document.getElementById("type");
+let boxoffice = document.getElementById("boxoffice");
+let ratings = document.getElementById("ratings");
+let moviename = document.getElementById("moviename");
+let btn = document.getElementById("btn")
+let image = document.getElementById("image")
+let loader = document.getElementById("loader")
+
+
+btn.addEventListener("click",()=>{
+   
+    loader.classList.add("loader")
+    fetch(`http://www.omdbapi.com/?apikey=61e576a4&t=${moviename.value}`)
+    .then((message)=>{
+        return message.json().then((data)=>{
+            title.innerText = "Title : "+ data.Title;
+            genre.innerText= "Genre : "+ data.Genre;
+            awards.innerText = "Awards : "+ data.Awards;
+            director.innerText = "Director : "+ data.Director;
+            language.innerText = "Language : "+ data.Language;
+            description.innerText = "Description : "+ data.Plot;
+            type.innerText = "Type : "+ data.Type;
+            boxoffice.innerText = "Boxoffice : "+ data.BoxOffice;
+            ratings.innerText = "Ratings : "+ data.Ratings[0].Value;
+            image.src =  data.Poster;
+            loader.classList.remove("loader")
+
+            
+
+            document.getElementById("title").style.color="red"
+            
+
+            
+        })
+    })
+})
+    </script>
+</body>
+</html>
